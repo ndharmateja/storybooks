@@ -1,14 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
-
-// Load config
-dotenv.config({ path: "./config/config.env" });
+import { NODE_ENV, PORT } from "./utils/config.js";
 
 // Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Listen
 app.listen(PORT, () =>
-  console.log(`Server running in '${process.env.NODE_ENV}' on: ${PORT}`)
+  console.log(`Server running in '${NODE_ENV}' on: ${PORT}`)
 );
