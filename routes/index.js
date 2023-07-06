@@ -8,7 +8,7 @@ const router = express.Router();
  * @route   GET /
  */
 router.get("/", (request, response) => {
-  response.send("Login");
+  response.render("login", { layout: "login" });
 });
 
 /**
@@ -16,7 +16,7 @@ router.get("/", (request, response) => {
  * @route   GET /dashboard
  */
 router.get("/dashboard", (request, response) => {
-  response.send("Dashboard");
+  response.render("dashboard");
 });
 
 export { router };
