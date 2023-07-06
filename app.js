@@ -3,6 +3,7 @@ import { isDev, PORT } from "./utils/config.js";
 import { connectDb } from "./utils/db.js";
 import { unknownRoute } from "./utils/middleware.js";
 import morgan from "morgan";
+import { router } from "./routes/index.js";
 
 // Connect to DB
 await connectDb();
@@ -15,6 +16,7 @@ app.use(express.json());
 if (isDev) app.use(morgan("dev"));
 
 // Routes
+app.use("/", router);
 app.use(unknownRoute);
 
 // Listen
