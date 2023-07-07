@@ -1,7 +1,5 @@
 import express from "express";
-import { isDev, PORT } from "./utils/config.js";
-import { connectDb } from "./utils/db.js";
-import { unknownRoute } from "./utils/middleware.js";
+import { config, db, middleware as mw } from "./utils/index.js";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
 import { router } from "./routes/index.js";
@@ -9,14 +7,14 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 
 // Connect to DB
-await connectDb();
+await db.connectDb();
 
 // Express app
 const app = express();
 
 // Middleware
 app.use(express.json());
-if (isDev) app.use(morgan("dev"));
+if (config.isDev) app.use(morgan("dev"));
 app.engine(".hbs", engine({ defaultLayout: "main", extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
@@ -29,9 +27,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/", router);
-app.use(unknownRoute);
+app.use(mw.unknownRoute);
 
 // Listen
-app.listen(PORT, () =>
-  console.log(`[${isDev ? "dev" : "prod"}] Server running in on: ${PORT}`)
+app.listen(config.PORT, () =>
+  console.log(
+    `[${config.isDev ? "dev" : "prod"}] Server running in on: ${config.PORT}`
+  )
 );

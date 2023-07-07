@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-import { MONGODB_URI } from "./config.js";
-import { error, info } from "./logger.js";
+import { config, logger } from "./index.js";
 
-export const connectDb = async () => {
+const connectDb = async () => {
   try {
-    info("Connecting to Mongo DB");
-    const conn = await mongoose.connect(MONGODB_URI);
-    info(`Successfully connected to Mongo DB: ${conn.connection.host}`);
+    logger.info("Connecting to Mongo DB");
+    const conn = await mongoose.connect(config.MONGODB_URI);
+    logger.info(`Successfully connected to Mongo DB: ${conn.connection.host}`);
   } catch (err) {
-    error(err);
+    logger.error(err);
     process.exit(1);
   }
 };
+
+export default { connectDb };
