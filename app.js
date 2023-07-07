@@ -1,5 +1,5 @@
 import express from "express";
-import { config, db, middleware as mw } from "./utils/index.js";
+import { config, db, middleware as mw, logger } from "./utils/index.js";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
 import { router } from "./routes/index.js";
@@ -7,7 +7,9 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 
 // Connect to DB
-await db.connectDb();
+logger.info("Connecting to Mongo DB");
+const hostName = await db.connectDb();
+logger.info(`Successfully connected to Mongo DB: ${hostName}`);
 
 // Express app
 const app = express();
